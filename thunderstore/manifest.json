@@ -1,6 +1,6 @@
 {
   "name": "Valheim_Viet_Hoa",
-  "version_number": "0.2.0",
+  "version_number": "0.2.1",
   "website_url": "https://github.com/monokaijs/valheim-viet-hoa",
   "description": "Bản Việt hóa Valheim đầy đủ, giàu ngữ cảnh và có font fallback cho mọi dấu tiếng Việt.",
   "dependencies": [

@@ -14,6 +14,11 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PLUGIN_ARCHIVE_ROOT = "plugins/ValheimVietHoa"
+PLUGIN_DLL_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/ValheimVietnameseFont.dll"
+TRANSLATION_ARCHIVE_PATH = (
+    f"{PLUGIN_ARCHIVE_ROOT}/Translations/Vietnamese/ValheimVietHoa.json"
+)
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -75,13 +80,13 @@ def main() -> int:
         ROOT / "thunderstore" / "README.md": "README.md",
         ROOT / "thunderstore" / "CHANGELOG.md": "CHANGELOG.md",
         icon_path: "icon.png",
-        plugin_path: "ValheimVietnameseFont.dll",
-        translation_path: "Translations/Vietnamese/ValheimVietHoa.json",
+        plugin_path: PLUGIN_DLL_ARCHIVE_PATH,
+        translation_path: TRANSLATION_ARCHIVE_PATH,
     }
 
     if args.include_svn_norse:
-        members[ROOT / "SVN-Norse Regular.otf"] = "SVN-Norse Regular.otf"
-        members[ROOT / "SVN-Norse Bold.otf"] = "SVN-Norse Bold.otf"
+        members[ROOT / "SVN-Norse Regular.otf"] = f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Regular.otf"
+        members[ROOT / "SVN-Norse Bold.otf"] = f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Bold.otf"
 
     missing_files = [str(path) for path in members if not path.is_file()]
     if missing_files:

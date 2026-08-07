@@ -16,8 +16,9 @@ Viking ở hội thoại, bia đá, giấc mơ và truyền thuyết.
 Khuyên dùng r2modman hoặc Thunderstore Mod Manager. Chọn **Install with Mod Manager**, rồi chạy
 Valheim từ profile đã cài mod. BepInEx và Jötunn sẽ được cài tự động.
 
-Cài thủ công: cài BepInExPack Valheim và Jötunn, sau đó giải nén gói này vào
-`BepInEx/plugins/ValheimVietHoa/`. Trong game, chọn `Vietnamese` ở phần ngôn ngữ.
+Cài thủ công: cài BepInExPack Valheim và Jötunn, sau đó chép thư mục
+`plugins/ValheimVietHoa` trong gói vào thư mục `BepInEx`. Trong game, chọn `Vietnamese` ở phần
+ngôn ngữ.
 
 ## Phản hồi bản dịch
 

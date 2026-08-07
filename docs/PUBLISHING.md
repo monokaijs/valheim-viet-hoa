@@ -5,7 +5,8 @@
 1. Run `uv sync --extra dev` and `uv run pytest -q`.
 2. Build the upload archive with `python3 scripts/package_thunderstore.py`.
 3. Inspect the ZIP in `dist/thunderstore/`. Its root must contain `manifest.json`, `README.md`,
-   `CHANGELOG.md`, and the 256×256 `icon.png`.
+   `CHANGELOG.md`, and the 256×256 `icon.png`. The mod payload must be under
+   `plugins/ValheimVietHoa/` so mod managers preserve the Jötunn translation folder structure.
 4. Sign in to Thunderstore and create or select the team that will permanently own the package.
 5. Open the Valheim community upload page and upload the ZIP.
 6. Select appropriate categories such as `Mods`, `Client-side`, `Language`, and `AI Generated`.

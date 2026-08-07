@@ -18,7 +18,7 @@ Manager; BepInEx và Jötunn sẽ được cài theo dependency.
 Cài thủ công:
 
 1. Cài `denikson-BepInExPack_Valheim` và `ValheimModding-Jotunn`.
-2. Giải nén gói release vào `Valheim/BepInEx/plugins/ValheimVietHoa/`.
+2. Chép thư mục `plugins/ValheimVietHoa` trong gói release vào `Valheim/BepInEx`.
 3. Khởi động game qua BepInEx và chọn `Vietnamese` trong phần ngôn ngữ.
 
 Font mặc định của gói public là Noto Sans/Serif đã đi kèm Valheim. Hai file SVN-Norse do người dùng

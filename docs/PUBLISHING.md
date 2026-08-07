@@ -20,13 +20,12 @@ The Thunderstore team name becomes part of the permanent dependency string. Pick
 2. Bump `version_number` in `thunderstore/manifest.json` using semantic versioning.
 3. Add release notes to `thunderstore/CHANGELOG.md`.
 4. Rebuild and test the package.
-5. Tag the matching commit, for example `git tag v0.2.1 && git push origin v0.2.1`.
+5. Tag the matching commit, for example `git tag v0.2.2 && git push origin v0.2.2`.
 6. Upload the new ZIP under the same Thunderstore team and package name.
 
 The GitHub release workflow also creates a release ZIP when a `v*` tag is pushed.
 
-## Font licensing
+## Fonts
 
-The default public archive does not contain SVN-Norse. Only use
-`python3 scripts/package_thunderstore.py --include-svn-norse` if you have verified that the font's
-license permits redistribution on GitHub and Thunderstore.
+The public archive includes `SVN-Norse Regular.otf` and `SVN-Norse Bold.otf` beside the plugin DLL.
+The packaging command fails if either required font file is missing.

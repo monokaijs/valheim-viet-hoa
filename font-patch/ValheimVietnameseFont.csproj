@@ -10,12 +10,13 @@
     <IncludeSVNNorse Condition="'$(IncludeSVNNorse)' == ''">false</IncludeSVNNorse>
     <ValheimDir Condition="'$(ValheimDir)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Valheim</ValheimDir>
     <ManagedDir>$(ValheimDir)/valheim.app/Contents/Resources/Data/Managed</ManagedDir>
+    <BepInExDir Condition="'$(BepInExDir)' == ''">$(ValheimDir)/BepInEx/core</BepInExDir>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
     <Reference Include="BepInEx">
-      <HintPath>$(ValheimDir)/BepInEx/core/BepInEx.dll</HintPath>
+      <HintPath>$(BepInExDir)/BepInEx.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">

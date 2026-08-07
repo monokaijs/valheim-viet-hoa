@@ -9,7 +9,3 @@ dist/
 build/
 font-patch/bin/
 font-patch/obj/
-
-# User-supplied font files are intentionally excluded from the public repository.
-# Only redistribute them after confirming their license permits it.
-SVN-Norse*.otf

@@ -5,7 +5,8 @@ placeholder, thẻ rich-text và số liệu. Văn phong giao diện ưu tiên r
 truyền thuyết mang sắc thái sử thi Viking nhưng không làm đổi cơ chế trò chơi.
 
 Gói mod dùng Jötunn để nạp bản dịch lúc chạy và plugin TextMeshPro nhỏ để bổ sung glyph tiếng Việt
-từ font Noto có sẵn trong Valheim. Nó **không sửa `resources.assets`** và không kèm tài sản game.
+từ font SVN-Norse đi kèm, với Noto có sẵn trong Valheim làm lớp dự phòng. Nó **không sửa
+`resources.assets`** và không kèm tài sản game.
 
 > Bản dịch có sự hỗ trợ của AI, sau đó được kiểm tra bằng quy tắc bảo toàn cú pháp và bộ nhớ ngữ
 > cảnh. Nếu gặp câu chưa tự nhiên hoặc sai ngữ cảnh, vui lòng mở issue kèm khóa localization.
@@ -21,8 +22,8 @@ Cài thủ công:
 2. Chép thư mục `plugins/ValheimVietHoa` trong gói release vào `Valheim/BepInEx`.
 3. Khởi động game qua BepInEx và chọn `Vietnamese` trong phần ngôn ngữ.
 
-Font mặc định của gói public là Noto Sans/Serif đã đi kèm Valheim. Hai file SVN-Norse do người dùng
-cung cấp không nằm trong repository hay gói Thunderstore vì chưa xác nhận quyền phân phối lại.
+Gói public đi kèm SVN-Norse Regular/Bold để dấu tiếng Việt đồng bộ với phong cách giao diện Valheim.
+Noto Sans/Serif có sẵn trong game vẫn được giữ làm font dự phòng an toàn.
 
 ## Tạo gói Thunderstore
 
@@ -36,8 +37,7 @@ File ZIP được tạo tại `dist/thunderstore/`. Muốn biên dịch lại DL
 python3 scripts/package_thunderstore.py --build-plugin
 ```
 
-Chỉ khi bạn có quyền phân phối SVN-Norse, có thể tạo bản local chứa font bằng
-`--include-svn-norse`. Xem [hướng dẫn phát hành](docs/PUBLISHING.md).
+Xem [hướng dẫn phát hành](docs/PUBLISHING.md) để kiểm tra và tải gói lên Thunderstore.
 
 ## Translation pipeline
 

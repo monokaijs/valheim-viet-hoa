@@ -36,11 +36,6 @@ def main() -> int:
         action="store_true",
         help="Build the font plugin against the locally installed Valheim before packaging.",
     )
-    parser.add_argument(
-        "--include-svn-norse",
-        action="store_true",
-        help="Include local SVN-Norse OTFs. Only use when redistribution is licensed.",
-    )
     args = parser.parse_args()
 
     manifest_path = ROOT / "thunderstore" / "manifest.json"
@@ -68,7 +63,7 @@ def main() -> int:
             str(ROOT / "font-patch" / "ValheimVietnameseFont.csproj"),
             "-c",
             "Release",
-            f"-p:IncludeSVNNorse={'true' if args.include_svn_norse else 'false'}",
+            "-p:IncludeSVNNorse=true",
         ]
         subprocess.run(command, cwd=ROOT, check=True)
         plugin_path = ROOT / "font-patch" / "bin" / "Release" / "ValheimVietnameseFont.dll"
@@ -82,11 +77,9 @@ def main() -> int:
         icon_path: "icon.png",
         plugin_path: PLUGIN_DLL_ARCHIVE_PATH,
         translation_path: TRANSLATION_ARCHIVE_PATH,
+        ROOT / "SVN-Norse Regular.otf": f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Regular.otf",
+        ROOT / "SVN-Norse Bold.otf": f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Bold.otf",
     }
-
-    if args.include_svn_norse:
-        members[ROOT / "SVN-Norse Regular.otf"] = f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Regular.otf"
-        members[ROOT / "SVN-Norse Bold.otf"] = f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Bold.otf"
 
     missing_files = [str(path) for path in members if not path.is_file()]
     if missing_files:
@@ -110,7 +103,7 @@ def main() -> int:
         f"Built {output_path}\n"
         f"  translations: {len(translations)}\n"
         f"  files: {len(members)}\n"
-        f"  SVN-Norse included: {'yes' if args.include_svn_norse else 'no'}"
+        "  SVN-Norse included: yes"
     )
     return 0
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+
+- Bundle SVN-Norse Regular and Bold so Vietnamese diacritics match Valheim's Norse UI style.
+- Keep Noto as a safety fallback for any glyphs not covered by SVN-Norse.
+
 ## 0.2.1
 
 - Sửa cấu trúc gói Thunderstore để r2modman giữ nguyên thư mục `Translations/Vietnamese`.

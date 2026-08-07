@@ -15,7 +15,7 @@ namespace ValheimVietnameseFont
     {
         public const string PluginId = "dev.valheim-vn.font-fallback";
         public const string PluginName = "Valheim Vietnamese Font Fallback";
-        public const string PluginVersion = "0.2.0";
+        public const string PluginVersion = "0.2.2";
 
         // Pre-warm the complete Vietnamese alphabet. The dynamic assets can
         // still add other Noto glyphs on demand.

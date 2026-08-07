@@ -15,7 +15,7 @@ namespace ValheimVietnameseFont
     {
         public const string PluginId = "dev.valheim-vn.font-fallback";
         public const string PluginName = "Valheim Vietnamese Font Fallback";
-        public const string PluginVersion = "0.2.2";
+        public const string PluginVersion = "0.2.3";
 
         // Pre-warm the complete Vietnamese alphabet. The dynamic assets can
         // still add other Noto glyphs on demand.
@@ -29,6 +29,10 @@ namespace ValheimVietnameseFont
         private TMP_FontAsset _customBold;
         private TMP_FontAsset _sansFallback;
         private TMP_FontAsset _serifFallback;
+        private readonly Dictionary<Material, Material> _regularMaterials =
+            new Dictionary<Material, Material>();
+        private readonly Dictionary<Material, Material> _boldMaterials =
+            new Dictionary<Material, Material>();
         private bool _installed;
 
         private void Awake()
@@ -100,7 +104,8 @@ namespace ValheimVietnameseFont
             AddGlobalFallback(_sansFallback);
             if (_customRegular != null)
             {
-                AddGlobalFallback(_customRegular);
+                AddAssetFallback(_customRegular, _sansFallback);
+                AddAssetFallback(_customBold, _sansFallback);
             }
             var existingAssets = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
             var patched = 0;
@@ -119,27 +124,25 @@ namespace ValheimVietnameseFont
                 {
                     asset.fallbackFontAssetTable = new List<TMP_FontAsset>();
                 }
-                var changed = AddAssetFallback(asset, notoFallback);
-                if (_customRegular != null)
-                {
-                    var customFallback = asset.name.IndexOf("Bold", StringComparison.OrdinalIgnoreCase) >= 0
-                        ? _customBold
-                        : _customRegular;
-                    changed |= AddAssetFallback(asset, customFallback);
-                }
-                if (changed)
+                if (AddAssetFallback(asset, notoFallback))
                 {
                     patched++;
                 }
             }
 
+            var replaced = ReplaceLoadedNorseFonts();
+            if (_customRegular != null)
+            {
+                StartCoroutine(ReplaceNorseFontsAsTheyLoad());
+            }
+
             var fontDescription = _customRegular == null
                 ? "Valheim bundled Noto Sans/Serif"
-                : "SVN-Norse Regular/Bold with Noto safety fallback";
+                : "SVN-Norse Regular/Bold replacing Valheim-Norse, with Noto safety fallback";
             Logger.LogInfo(
                 $"Vietnamese font fallback ready with {fontDescription}; preloaded " +
-                $"{VietnameseCharacters.Length} characters and patched {patched} loaded " +
-                "TextMeshPro font assets."
+                $"{VietnameseCharacters.Length} characters, patched {patched} fallback tables, " +
+                $"and replaced {replaced} loaded Norse text components."
             );
             _installed = true;
             return true;
@@ -188,6 +191,96 @@ namespace ValheimVietnameseFont
                 Logger.LogWarning($"{assetName} could not preload: {missing}");
             }
             return asset;
+        }
+
+        private IEnumerator ReplaceNorseFontsAsTheyLoad()
+        {
+            var wait = new WaitForSecondsRealtime(1f);
+            while (true)
+            {
+                ReplaceLoadedNorseFonts();
+                yield return wait;
+            }
+        }
+
+        private int ReplaceLoadedNorseFonts()
+        {
+            if (_customRegular == null || _customBold == null)
+            {
+                return 0;
+            }
+
+            var replaced = 0;
+            foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+            {
+                if (text == null || !IsValheimNorse(text.font))
+                {
+                    continue;
+                }
+
+                var useBold = text.font.name.IndexOf("bold", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (text.fontStyle & FontStyles.Bold) != 0;
+                var replacement = useBold ? _customBold : _customRegular;
+                var sourceMaterial = text.fontSharedMaterial;
+
+                text.font = replacement;
+                text.fontSharedMaterial = GetReplacementMaterial(sourceMaterial, replacement, useBold);
+                replaced++;
+            }
+            return replaced;
+        }
+
+        private bool IsValheimNorse(TMP_FontAsset asset)
+        {
+            return asset != null && asset != _customRegular && asset != _customBold &&
+                asset.name.StartsWith("Valheim-Norse", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private Material GetReplacementMaterial(
+            Material source,
+            TMP_FontAsset replacement,
+            bool bold
+        )
+        {
+            if (source == null)
+            {
+                return replacement.material;
+            }
+
+            var cache = bold ? _boldMaterials : _regularMaterials;
+            if (cache.TryGetValue(source, out var cached) && cached != null)
+            {
+                return cached;
+            }
+
+            // Start with the SVN-Norse material so TextMeshPro gets the correct atlas,
+            // then retain Valheim's outline/underlay styling from the original preset.
+            var material = new Material(replacement.material);
+            material.CopyPropertiesFromMaterial(source);
+            CopyAtlasProperty(replacement.material, material, "_MainTex");
+            CopyFloatProperty(replacement.material, material, "_TextureWidth");
+            CopyFloatProperty(replacement.material, material, "_TextureHeight");
+            CopyFloatProperty(replacement.material, material, "_GradientScale");
+            material.name = source.name + " (SVN-Norse)";
+            material.hideFlags = HideFlags.HideAndDontSave;
+            cache[source] = material;
+            return material;
+        }
+
+        private static void CopyAtlasProperty(Material source, Material destination, string property)
+        {
+            if (source.HasProperty(property) && destination.HasProperty(property))
+            {
+                destination.SetTexture(property, source.GetTexture(property));
+            }
+        }
+
+        private static void CopyFloatProperty(Material source, Material destination, string property)
+        {
+            if (source.HasProperty(property) && destination.HasProperty(property))
+            {
+                destination.SetFloat(property, source.GetFloat(property));
+            }
         }
 
         private static bool AddAssetFallback(TMP_FontAsset asset, TMP_FontAsset fallback)

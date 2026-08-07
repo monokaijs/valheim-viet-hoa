@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+- Replace Valheim-Norse/Valheim-Norsebold as whole fonts with SVN-Norse Regular/Bold.
+- Stop mixing SVN-Norse accented glyphs into otherwise normal-font text.
+- Keep Noto Sans/Serif as the missing-glyph fallback for non-Norse fonts.
+
 ## 0.2.2
 
 - Bundle SVN-Norse Regular and Bold so Vietnamese diacritics match Valheim's Norse UI style.

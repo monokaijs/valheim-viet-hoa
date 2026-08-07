@@ -8,8 +8,9 @@ Viking ở hội thoại, bia đá, giấc mơ và truyền thuyết.
 - Dịch giao diện, vật phẩm, công thức, nhiệm vụ, hội thoại và lore của game gốc.
 - Bảo toàn token, placeholder, rich-text và mọi con số ảnh hưởng cơ chế.
 - Ghi nhớ ngữ cảnh theo nhóm vật phẩm, nhân vật và chủ đề để dùng thuật ngữ nhất quán.
-- Đi kèm SVN-Norse Regular/Bold cho dấu tiếng Việt đồng bộ với phong cách giao diện Valheim.
-- Dùng Noto Sans/Serif có sẵn trong Valheim làm lớp font dự phòng an toàn.
+- Thay trọn bộ Valheim-Norse/Valheim-Norsebold bằng SVN-Norse Regular/Bold, không trộn riêng ký tự
+  có dấu vào font thường.
+- Dùng Noto Sans/Serif có sẵn trong Valheim làm lớp dự phòng cho các font giao diện khác.
 - Không chỉnh sửa `resources.assets`; có thể gỡ sạch bằng mod manager.
 
 ## Cài đặt

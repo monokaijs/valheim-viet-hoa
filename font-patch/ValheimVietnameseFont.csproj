@@ -43,6 +43,10 @@
       <HintPath>$(ManagedDir)/UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedDir)/UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <None Include="../SVN-Norse Regular.otf" Link="SVN-Norse Regular.otf"
           Condition="'$(IncludeSVNNorse)' == 'true' and Exists('../SVN-Norse Regular.otf')"
           CopyToOutputDirectory="PreserveNewest" />

@@ -1,9 +1,9 @@
-Copyright 2011 The Bitter Project Authors (https://github.com/solmatas/BitterPro)
-with Reserved Font Name "Bitter Pro".
+Copyright (c) 2011, Dan Sayers (i@iotic.com),
+with Reserved Font Name 'Averia' and 'Averia Libre'.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
-https://openfontlicense.org
+http://scripts.sil.org/OFL
 
 
 -----------------------------------------------------------

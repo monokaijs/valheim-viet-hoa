@@ -28,6 +28,8 @@ The GitHub release workflow also creates a release ZIP when a `v*` tag is pushed
 ## Fonts
 
 The public archive includes `SVN-Norse Regular.otf`, `SVN-Norse Bold.otf`,
-`PatrickHand-Regular.ttf`, `Bitter-Regular.ttf`, and `Bitter-Bold.ttf` beside the plugin DLL. The
-Patrick Hand and Bitter SIL Open Font License texts must remain in the archive.
-The packaging command fails if either required font file is missing.
+`ValheimVN-Sans-Regular.ttf`, and `ValheimVN-Serif-Regular.ttf` beside the plugin DLL. The latter two
+are renamed, Vietnamese-complete derivatives of Valheim's embedded Averia fonts; eight missing accent
+marks come from Noto. They remain under the SIL Open Font License, with the Averia and Noto notices
+in `OFL-Averia.txt` and `OFL-Noto.txt`. The packaging command fails if any required font or license
+file is missing.

@@ -5,9 +5,11 @@ placeholder, thẻ rich-text và số liệu. Văn phong giao diện ưu tiên r
 truyền thuyết mang sắc thái sử thi Viking nhưng không làm đổi cơ chế trò chơi.
 
 Gói mod dùng Jötunn để nạp bản dịch lúc chạy và plugin TextMeshPro nhỏ để thay toàn bộ
-Valheim-Norse/Valheim-Norsebold bằng SVN-Norse, Averia Sans bằng Patrick Hand và Averia Serif bằng
-Bitter Regular/Bold. Noto có sẵn trong Valheim vẫn làm lớp dự phòng an toàn. Mod **không sửa
-`resources.assets`** và không kèm tài sản game.
+Valheim-Norse/Valheim-Norsebold bằng SVN-Norse. Averia Sans và Averia Serif nguyên bản của game
+được giữ lại. Hai font nguồn đi kèm mod được tạo từ đúng bản Averia nhúng trong game rồi bổ sung
+102 ký tự tiếng Việt còn thiếu; plugin dùng chúng để thêm glyph trực tiếp vào asset TMP gốc. Atlas,
+shader và material viền đen gốc không bị thay thế. Noto có sẵn trong Valheim vẫn làm lớp dự phòng
+an toàn. Mod **không sửa `resources.assets`**.
 
 > Bản dịch có sự hỗ trợ của AI, sau đó được kiểm tra bằng quy tắc bảo toàn cú pháp và bộ nhớ ngữ
 > cảnh. Nếu gặp câu chưa tự nhiên hoặc sai ngữ cảnh, vui lòng mở issue kèm khóa localization.
@@ -24,9 +26,11 @@ Cài thủ công:
 3. Khởi động game qua BepInEx và chọn `Vietnamese` trong phần ngôn ngữ.
 
 Gói public đi kèm SVN-Norse Regular/Bold để thay trọn bộ font Norse của Valheim, tránh trộn riêng
-các ký tự có dấu với font gốc. Patrick Hand thay toàn bộ Averia Sans; Bitter Regular/Bold thay toàn
-bộ Averia Serif. Cả hai có đầy đủ ký tự tiếng Việt và giữ nguyên material viền/bóng của giao diện.
-Noto Sans/Serif có sẵn trong game vẫn được giữ làm font dự phòng an toàn.
+các ký tự có dấu với font gốc. Với Averia Sans và Averia Serif, plugin giữ nguyên TMP asset, atlas,
+shader và material của game; nó chỉ chuyển asset sang chế độ nạp động bằng font nguồn đã vá đi kèm
+mod rồi thêm các glyph tiếng Việt còn thiếu. Mọi glyph và ID có sẵn được lấy từ đúng font Averia
+nhúng trong game; glyph tiếng Việt mới được nối thêm sau chúng. Noto Sans/Serif vẫn là dự phòng an
+toàn.
 
 ## Tạo gói Thunderstore
 
@@ -228,20 +232,25 @@ Never byte-patch an unknown game build and never carry translations forward with
 
 ## Vietnamese font fallback
 
-Valheim's UI fonts do not contain the Vietnamese Unicode range. The BepInEx font patch replaces
-each `Valheim-Norse`/`Valheim-Norsebold` text component with SVN-Norse Regular/Bold, each
-`Valheim-AveriaSansLibre` component with Patrick Hand, and each `Valheim-AveriaSerifLibre`
-component with Bitter Regular/Bold. These are whole-font replacements, so Vietnamese and ASCII
-glyphs never mix typefaces inside a text element. Other TextMeshPro fonts use dynamic fallback
-assets created from Valheim's bundled Noto Sans and Noto Serif.
+Valheim's pre-baked UI font atlases do not contain the Vietnamese Unicode range. The BepInEx font
+patch replaces each `Valheim-Norse`/`Valheim-Norsebold` text component with SVN-Norse Regular/Bold.
+Valheim's static Averia Sans and Averia Serif TextMeshPro atlases and embedded source fonts both omit
+102 required Vietnamese characters. The plugin therefore bundles modified fonts built from the exact
+Steam-verified embedded Averia copies, with the missing characters composed from Averia bases and
+eight accent marks supplied by Noto. It points each original Averia TMP asset at its matching patched
+source, switches that asset to dynamic population, and adds only the missing characters. Existing
+glyph IDs, the original atlas, shader, material preset, and black outline stay in place. Noto remains
+only a safety fallback if in-place population genuinely fails.
 
 ```bash
 dotnet build font-patch/ValheimVietnameseFont.csproj -c Release
 ```
 
-Copy `ValheimVietnameseFont.dll` into the same BepInEx plugin directory as the translations, then
-restart Valheim. Confirm that you have redistribution rights before adding any third-party fonts to
-a private build or launcher.
+Copy `ValheimVietnameseFont.dll` and both `ValheimVN-*.ttf` files into the same BepInEx plugin
+directory as the translations, then restart Valheim. The modified fonts are renamed and distributed
+under the Averia and Noto SIL Open Font Licenses. They were generated with
+[viet-hoa-font](https://github.com/tecix/viet-hoa-font); coverage, glyph IDs, outlines, metrics, and
+internal family names are checked by the test suite.
 
 ## Verification
 

@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.2.11
+
+- Patch the exact Steam-verified embedded Averia Sans/Serif fonts with all 102 missing Vietnamese characters.
+- Preserve every existing Valheim glyph ID and append the new glyphs without collisions.
+- Populate Valheim's original TMP assets in place, keeping their atlas, shader, and black-outline materials.
+- Rename the modified font families and ship both Averia and Noto OFL notices.
+
+## 0.2.10
+
+- Stop replacing the original Averia TMP assets and materials.
+- Populate Vietnamese glyphs directly into Valheim's original Averia assets at runtime.
+- Preserve the original atlas, shader, SDF settings, material preset, and existing glyph rendering.
+- Use Noto only if in-place population reports a genuinely unresolved character.
+
+## 0.2.9
+
+- Render Latin and Vietnamese Averia glyphs from one unified dynamic TMP atlas.
+- Eliminate the separate Vietnamese fallback submesh that produced gray outlines.
+- Copy each original Valheim material preset onto the matching dynamic Averia atlas.
+
+## 0.2.8
+
+- Restore Valheim's original Averia Sans and Averia Serif typography.
+- Populate missing Vietnamese atlas glyphs dynamically from Valheim's embedded Averia source fonts.
+- Remove the Patrick Hand and Bitter whole-font replacements from the plugin package.
+- Keep Noto Sans/Serif only as a safety fallback for glyphs absent from the matching Averia source.
+
 ## 0.2.7
 
 - Copy Valheim's complete TextMeshPro material preset onto replacement fonts.

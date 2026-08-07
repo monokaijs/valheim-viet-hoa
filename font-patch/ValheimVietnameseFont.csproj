@@ -53,20 +53,17 @@
     <None Include="../SVN-Norse Bold.otf" Link="SVN-Norse Bold.otf"
           Condition="'$(IncludeSVNNorse)' == 'true' and Exists('../SVN-Norse Bold.otf')"
           CopyToOutputDirectory="PreserveNewest" />
-    <None Include="../PatrickHand-Regular.ttf" Link="PatrickHand-Regular.ttf"
-          Condition="Exists('../PatrickHand-Regular.ttf')"
+    <None Include="../ValheimVN-Sans-Regular.ttf" Link="ValheimVN-Sans-Regular.ttf"
+          Condition="Exists('../ValheimVN-Sans-Regular.ttf')"
           CopyToOutputDirectory="PreserveNewest" />
-    <None Include="../licenses/OFL-PatrickHand.txt" Link="OFL-PatrickHand.txt"
-          Condition="Exists('../licenses/OFL-PatrickHand.txt')"
+    <None Include="../ValheimVN-Serif-Regular.ttf" Link="ValheimVN-Serif-Regular.ttf"
+          Condition="Exists('../ValheimVN-Serif-Regular.ttf')"
           CopyToOutputDirectory="PreserveNewest" />
-    <None Include="../Bitter-Regular.ttf" Link="Bitter-Regular.ttf"
-          Condition="Exists('../Bitter-Regular.ttf')"
+    <None Include="../licenses/OFL-Averia.txt" Link="OFL-Averia.txt"
+          Condition="Exists('../licenses/OFL-Averia.txt')"
           CopyToOutputDirectory="PreserveNewest" />
-    <None Include="../Bitter-Bold.ttf" Link="Bitter-Bold.ttf"
-          Condition="Exists('../Bitter-Bold.ttf')"
-          CopyToOutputDirectory="PreserveNewest" />
-    <None Include="../licenses/OFL-Bitter.txt" Link="OFL-Bitter.txt"
-          Condition="Exists('../licenses/OFL-Bitter.txt')"
+    <None Include="../licenses/OFL-Noto.txt" Link="OFL-Noto.txt"
+          Condition="Exists('../licenses/OFL-Noto.txt')"
           CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

@@ -19,11 +19,10 @@ PLUGIN_DLL_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/ValheimVietnameseFont.dll"
 TRANSLATION_ARCHIVE_PATH = (
     f"{PLUGIN_ARCHIVE_ROOT}/Translations/Vietnamese/ValheimVietHoa.json"
 )
-PATRICK_HAND_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/PatrickHand-Regular.ttf"
-PATRICK_HAND_LICENSE_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/OFL-PatrickHand.txt"
-BITTER_REGULAR_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/Bitter-Regular.ttf"
-BITTER_BOLD_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/Bitter-Bold.ttf"
-BITTER_LICENSE_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/OFL-Bitter.txt"
+AVERIA_SANS_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/ValheimVN-Sans-Regular.ttf"
+AVERIA_SERIF_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/ValheimVN-Serif-Regular.ttf"
+AVERIA_LICENSE_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/OFL-Averia.txt"
+NOTO_LICENSE_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/OFL-Noto.txt"
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -84,11 +83,10 @@ def main() -> int:
         translation_path: TRANSLATION_ARCHIVE_PATH,
         ROOT / "SVN-Norse Regular.otf": f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Regular.otf",
         ROOT / "SVN-Norse Bold.otf": f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Bold.otf",
-        ROOT / "PatrickHand-Regular.ttf": PATRICK_HAND_ARCHIVE_PATH,
-        ROOT / "licenses" / "OFL-PatrickHand.txt": PATRICK_HAND_LICENSE_ARCHIVE_PATH,
-        ROOT / "Bitter-Regular.ttf": BITTER_REGULAR_ARCHIVE_PATH,
-        ROOT / "Bitter-Bold.ttf": BITTER_BOLD_ARCHIVE_PATH,
-        ROOT / "licenses" / "OFL-Bitter.txt": BITTER_LICENSE_ARCHIVE_PATH,
+        ROOT / "ValheimVN-Sans-Regular.ttf": AVERIA_SANS_ARCHIVE_PATH,
+        ROOT / "ValheimVN-Serif-Regular.ttf": AVERIA_SERIF_ARCHIVE_PATH,
+        ROOT / "licenses" / "OFL-Averia.txt": AVERIA_LICENSE_ARCHIVE_PATH,
+        ROOT / "licenses" / "OFL-Noto.txt": NOTO_LICENSE_ARCHIVE_PATH,
     }
 
     missing_files = [str(path) for path in members if not path.is_file()]
@@ -114,8 +112,7 @@ def main() -> int:
         f"  translations: {len(translations)}\n"
         f"  files: {len(members)}\n"
         "  SVN-Norse included: yes\n"
-        "  Patrick Hand included: yes\n"
-        "  Bitter Regular/Bold included: yes"
+        "  Vietnamese-complete Averia-derived source files included: yes"
     )
     return 0
 

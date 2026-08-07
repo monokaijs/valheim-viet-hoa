@@ -19,6 +19,11 @@ PLUGIN_DLL_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/ValheimVietnameseFont.dll"
 TRANSLATION_ARCHIVE_PATH = (
     f"{PLUGIN_ARCHIVE_ROOT}/Translations/Vietnamese/ValheimVietHoa.json"
 )
+PATRICK_HAND_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/PatrickHand-Regular.ttf"
+PATRICK_HAND_LICENSE_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/OFL-PatrickHand.txt"
+BITTER_REGULAR_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/Bitter-Regular.ttf"
+BITTER_BOLD_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/Bitter-Bold.ttf"
+BITTER_LICENSE_ARCHIVE_PATH = f"{PLUGIN_ARCHIVE_ROOT}/OFL-Bitter.txt"
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -79,6 +84,11 @@ def main() -> int:
         translation_path: TRANSLATION_ARCHIVE_PATH,
         ROOT / "SVN-Norse Regular.otf": f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Regular.otf",
         ROOT / "SVN-Norse Bold.otf": f"{PLUGIN_ARCHIVE_ROOT}/SVN-Norse Bold.otf",
+        ROOT / "PatrickHand-Regular.ttf": PATRICK_HAND_ARCHIVE_PATH,
+        ROOT / "licenses" / "OFL-PatrickHand.txt": PATRICK_HAND_LICENSE_ARCHIVE_PATH,
+        ROOT / "Bitter-Regular.ttf": BITTER_REGULAR_ARCHIVE_PATH,
+        ROOT / "Bitter-Bold.ttf": BITTER_BOLD_ARCHIVE_PATH,
+        ROOT / "licenses" / "OFL-Bitter.txt": BITTER_LICENSE_ARCHIVE_PATH,
     }
 
     missing_files = [str(path) for path in members if not path.is_file()]
@@ -103,7 +113,9 @@ def main() -> int:
         f"Built {output_path}\n"
         f"  translations: {len(translations)}\n"
         f"  files: {len(members)}\n"
-        "  SVN-Norse included: yes"
+        "  SVN-Norse included: yes\n"
+        "  Patrick Hand included: yes\n"
+        "  Bitter Regular/Bold included: yes"
     )
     return 0
 

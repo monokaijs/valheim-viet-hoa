@@ -5,9 +5,9 @@ placeholder, thẻ rich-text và số liệu. Văn phong giao diện ưu tiên r
 truyền thuyết mang sắc thái sử thi Viking nhưng không làm đổi cơ chế trò chơi.
 
 Gói mod dùng Jötunn để nạp bản dịch lúc chạy và plugin TextMeshPro nhỏ để thay toàn bộ
-Valheim-Norse/Valheim-Norsebold bằng SVN-Norse Regular/Bold đi kèm. Các font giao diện khác dùng
-Noto có sẵn trong Valheim làm lớp dự phòng tiếng Việt. Nó **không sửa `resources.assets`** và không
-kèm tài sản game.
+Valheim-Norse/Valheim-Norsebold bằng SVN-Norse, Averia Sans bằng Patrick Hand và Averia Serif bằng
+Bitter Regular/Bold. Noto có sẵn trong Valheim vẫn làm lớp dự phòng an toàn. Mod **không sửa
+`resources.assets`** và không kèm tài sản game.
 
 > Bản dịch có sự hỗ trợ của AI, sau đó được kiểm tra bằng quy tắc bảo toàn cú pháp và bộ nhớ ngữ
 > cảnh. Nếu gặp câu chưa tự nhiên hoặc sai ngữ cảnh, vui lòng mở issue kèm khóa localization.
@@ -24,8 +24,9 @@ Cài thủ công:
 3. Khởi động game qua BepInEx và chọn `Vietnamese` trong phần ngôn ngữ.
 
 Gói public đi kèm SVN-Norse Regular/Bold để thay trọn bộ font Norse của Valheim, tránh trộn riêng
-các ký tự có dấu với font gốc. Noto Sans/Serif có sẵn trong game vẫn được giữ làm font dự phòng an
-toàn cho các font giao diện khác.
+các ký tự có dấu với font gốc. Patrick Hand thay toàn bộ Averia Sans; Bitter Regular/Bold thay toàn
+bộ Averia Serif. Cả hai có đầy đủ ký tự tiếng Việt và giữ nguyên material viền/bóng của giao diện.
+Noto Sans/Serif có sẵn trong game vẫn được giữ làm font dự phòng an toàn.
 
 ## Tạo gói Thunderstore
 
@@ -228,10 +229,11 @@ Never byte-patch an unknown game build and never carry translations forward with
 ## Vietnamese font fallback
 
 Valheim's UI fonts do not contain the Vietnamese Unicode range. The BepInEx font patch replaces
-each `Valheim-Norse`/`Valheim-Norsebold` text component with the matching SVN-Norse Regular/Bold
-asset as a whole font. It never mixes SVN-Norse into normal fonts one accented glyph at a time.
-Other TextMeshPro fonts use dynamic fallback assets created from Valheim's bundled Noto Sans and
-Noto Serif.
+each `Valheim-Norse`/`Valheim-Norsebold` text component with SVN-Norse Regular/Bold, each
+`Valheim-AveriaSansLibre` component with Patrick Hand, and each `Valheim-AveriaSerifLibre`
+component with Bitter Regular/Bold. These are whole-font replacements, so Vietnamese and ASCII
+glyphs never mix typefaces inside a text element. Other TextMeshPro fonts use dynamic fallback
+assets created from Valheim's bundled Noto Sans and Noto Serif.
 
 ```bash
 dotnet build font-patch/ValheimVietnameseFont.csproj -c Release

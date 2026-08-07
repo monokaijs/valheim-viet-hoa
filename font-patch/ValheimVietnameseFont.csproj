@@ -53,5 +53,20 @@
     <None Include="../SVN-Norse Bold.otf" Link="SVN-Norse Bold.otf"
           Condition="'$(IncludeSVNNorse)' == 'true' and Exists('../SVN-Norse Bold.otf')"
           CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../PatrickHand-Regular.ttf" Link="PatrickHand-Regular.ttf"
+          Condition="Exists('../PatrickHand-Regular.ttf')"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../licenses/OFL-PatrickHand.txt" Link="OFL-PatrickHand.txt"
+          Condition="Exists('../licenses/OFL-PatrickHand.txt')"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Bitter-Regular.ttf" Link="Bitter-Regular.ttf"
+          Condition="Exists('../Bitter-Regular.ttf')"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../Bitter-Bold.ttf" Link="Bitter-Bold.ttf"
+          Condition="Exists('../Bitter-Bold.ttf')"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../licenses/OFL-Bitter.txt" Link="OFL-Bitter.txt"
+          Condition="Exists('../licenses/OFL-Bitter.txt')"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

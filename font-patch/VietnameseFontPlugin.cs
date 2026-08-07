@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using BepInEx;
 using TMPro;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace ValheimVietnameseFont
     {
         public const string PluginId = "dev.valheim-vn.font-fallback";
         public const string PluginName = "Valheim Vietnamese Font Fallback";
-        public const string PluginVersion = "0.2.3";
+        public const string PluginVersion = "0.2.7";
 
         // Pre-warm the complete Vietnamese alphabet. The dynamic assets can
         // still add other Noto glyphs on demand.
@@ -27,6 +28,9 @@ namespace ValheimVietnameseFont
 
         private TMP_FontAsset _customRegular;
         private TMP_FontAsset _customBold;
+        private TMP_FontAsset _patrickHand;
+        private TMP_FontAsset _bitterRegular;
+        private TMP_FontAsset _bitterBold;
         private TMP_FontAsset _sansFallback;
         private TMP_FontAsset _serifFallback;
         private readonly Dictionary<Material, Material> _regularMaterials =
@@ -101,17 +105,76 @@ namespace ValheimVietnameseFont
                 );
             }
 
+            var patrickHandPath = Path.Combine(pluginDirectory, "PatrickHand-Regular.ttf");
+            if (File.Exists(patrickHandPath))
+            {
+                _patrickHand = CreateFallback(
+                    patrickHandPath,
+                    "ValheimVN-PatrickHand-Regular"
+                );
+                if (_patrickHand == null)
+                {
+                    Logger.LogWarning(
+                        "Patrick Hand was found but TextMeshPro could not load it; " +
+                        "keeping Valheim's Averia fonts."
+                    );
+                }
+            }
+            else
+            {
+                Logger.LogWarning(
+                    "PatrickHand-Regular.ttf was not found; keeping Valheim's Averia fonts."
+                );
+            }
+
+            var bitterRegularPath = Path.Combine(pluginDirectory, "Bitter-Regular.ttf");
+            var bitterBoldPath = Path.Combine(pluginDirectory, "Bitter-Bold.ttf");
+            if (File.Exists(bitterRegularPath) && File.Exists(bitterBoldPath))
+            {
+                _bitterRegular = CreateFallback(
+                    bitterRegularPath,
+                    "ValheimVN-Bitter-Regular"
+                );
+                _bitterBold = CreateFallback(bitterBoldPath, "ValheimVN-Bitter-Bold");
+                if (_bitterRegular == null || _bitterBold == null)
+                {
+                    Logger.LogWarning(
+                        "Bitter was found but TextMeshPro could not load it; " +
+                        "keeping Valheim's Averia Serif font."
+                    );
+                    _bitterRegular = null;
+                    _bitterBold = null;
+                }
+            }
+            else
+            {
+                Logger.LogWarning(
+                    "Bitter Regular/Bold were not found; keeping Valheim's Averia Serif font."
+                );
+            }
+
+            EnableFallbackMaterialPresetMatching();
             AddGlobalFallback(_sansFallback);
             if (_customRegular != null)
             {
                 AddAssetFallback(_customRegular, _sansFallback);
                 AddAssetFallback(_customBold, _sansFallback);
             }
+            if (_patrickHand != null)
+            {
+                AddAssetFallback(_patrickHand, _sansFallback);
+            }
+            if (_bitterRegular != null)
+            {
+                AddAssetFallback(_bitterRegular, _serifFallback);
+                AddAssetFallback(_bitterBold, _serifFallback);
+            }
             var existingAssets = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
             var patched = 0;
             foreach (var asset in existingAssets)
             {
                 if (asset == null || asset == _customRegular || asset == _customBold ||
+                    asset == _patrickHand || asset == _bitterRegular || asset == _bitterBold ||
                     asset == _sansFallback || asset == _serifFallback)
                 {
                     continue;
@@ -130,19 +193,21 @@ namespace ValheimVietnameseFont
                 }
             }
 
-            var replaced = ReplaceLoadedNorseFonts();
-            if (_customRegular != null)
+            var replaced = ReplaceLoadedFonts();
+            if (_customRegular != null || _patrickHand != null || _bitterRegular != null)
             {
-                StartCoroutine(ReplaceNorseFontsAsTheyLoad());
+                StartCoroutine(ReplaceFontsAsTheyLoad());
             }
 
-            var fontDescription = _customRegular == null
-                ? "Valheim bundled Noto Sans/Serif"
-                : "SVN-Norse Regular/Bold replacing Valheim-Norse, with Noto safety fallback";
+            var fontDescription =
+                $"Norse={(_customRegular == null ? "original" : "SVN-Norse Regular/Bold")}, " +
+                $"AveriaSans={(_patrickHand == null ? "original" : "Patrick Hand")}, " +
+                $"AveriaSerif={(_bitterRegular == null ? "original" : "Bitter Regular/Bold")}, " +
+                "Noto safety fallback";
             Logger.LogInfo(
                 $"Vietnamese font fallback ready with {fontDescription}; preloaded " +
                 $"{VietnameseCharacters.Length} characters, patched {patched} fallback tables, " +
-                $"and replaced {replaced} loaded Norse text components."
+                $"and replaced {replaced} loaded text components."
             );
             _installed = true;
             return true;
@@ -193,19 +258,62 @@ namespace ValheimVietnameseFont
             return asset;
         }
 
-        private IEnumerator ReplaceNorseFontsAsTheyLoad()
+        private void EnableFallbackMaterialPresetMatching()
+        {
+            if (TMP_Settings.matchMaterialPreset)
+            {
+                return;
+            }
+
+            var field = typeof(TMP_Settings).GetField(
+                "m_matchMaterialPreset",
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            if (field == null || TMP_Settings.instance == null)
+            {
+                Logger.LogWarning(
+                    "Could not enable TextMeshPro fallback material matching; " +
+                    "fallback glyph outlines may differ."
+                );
+                return;
+            }
+
+            try
+            {
+                field.SetValue(TMP_Settings.instance, true);
+            }
+            catch (Exception exception)
+            {
+                Logger.LogWarning(
+                    $"Could not enable TextMeshPro fallback material matching: {exception.Message}"
+                );
+                return;
+            }
+
+            foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+            {
+                if (text != null)
+                {
+                    text.SetAllDirty();
+                }
+            }
+            Logger.LogInfo("TextMeshPro fallback material preset matching enabled.");
+        }
+
+        private IEnumerator ReplaceFontsAsTheyLoad()
         {
             var wait = new WaitForSecondsRealtime(1f);
             while (true)
             {
-                ReplaceLoadedNorseFonts();
+                ReplaceLoadedFonts();
                 yield return wait;
             }
         }
 
-        private int ReplaceLoadedNorseFonts()
+        private int ReplaceLoadedFonts()
         {
-            if (_customRegular == null || _customBold == null)
+            if ((_customRegular == null || _customBold == null) && _patrickHand == null &&
+                (_bitterRegular == null || _bitterBold == null))
             {
                 return 0;
             }
@@ -213,14 +321,33 @@ namespace ValheimVietnameseFont
             var replaced = 0;
             foreach (var text in Resources.FindObjectsOfTypeAll<TMP_Text>())
             {
-                if (text == null || !IsValheimNorse(text.font))
+                if (text == null || text.font == null)
                 {
                     continue;
                 }
 
                 var useBold = text.font.name.IndexOf("bold", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                    (text.fontStyle & FontStyles.Bold) != 0;
-                var replacement = useBold ? _customBold : _customRegular;
+                    (text.fontStyle & FontStyles.Bold) != 0 ||
+                    (int)text.fontWeight >= (int)FontWeight.Bold;
+                TMP_FontAsset replacement = null;
+                if (IsValheimNorse(text.font) && _customRegular != null && _customBold != null)
+                {
+                    replacement = useBold ? _customBold : _customRegular;
+                }
+                else if (IsValheimAveriaSans(text.font) && _patrickHand != null)
+                {
+                    replacement = _patrickHand;
+                }
+                else if (IsValheimAveriaSerif(text.font) && _bitterRegular != null &&
+                    _bitterBold != null)
+                {
+                    replacement = useBold ? _bitterBold : _bitterRegular;
+                }
+                if (replacement == null)
+                {
+                    continue;
+                }
+
                 var sourceMaterial = text.fontSharedMaterial;
 
                 text.font = replacement;
@@ -234,6 +361,24 @@ namespace ValheimVietnameseFont
         {
             return asset != null && asset != _customRegular && asset != _customBold &&
                 asset.name.StartsWith("Valheim-Norse", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsValheimAveriaSans(TMP_FontAsset asset)
+        {
+            return asset != null && asset != _patrickHand &&
+                asset.name.StartsWith(
+                    "Valheim-AveriaSansLibre",
+                    StringComparison.OrdinalIgnoreCase
+                );
+        }
+
+        private bool IsValheimAveriaSerif(TMP_FontAsset asset)
+        {
+            return asset != null && asset != _bitterRegular && asset != _bitterBold &&
+                asset.name.StartsWith(
+                    "Valheim-AveriaSerifLibre",
+                    StringComparison.OrdinalIgnoreCase
+                );
         }
 
         private Material GetReplacementMaterial(
@@ -253,38 +398,27 @@ namespace ValheimVietnameseFont
                 return cached;
             }
 
-            // Start with the SVN-Norse material so TextMeshPro gets the correct atlas,
-            // then retain Valheim's outline/underlay styling from the original preset.
+            // Start with the replacement material so TextMeshPro gets the correct atlas.
+            // TMP's preset copier applies Valheim's shader and visual properties while
+            // preserving the replacement font's atlas, gradient scale, and weights.
             var material = new Material(replacement.material);
-            material.CopyPropertiesFromMaterial(source);
-            CopyAtlasProperty(replacement.material, material, "_MainTex");
-            CopyFloatProperty(replacement.material, material, "_TextureWidth");
-            CopyFloatProperty(replacement.material, material, "_TextureHeight");
-            CopyFloatProperty(replacement.material, material, "_GradientScale");
-            material.name = source.name + " (SVN-Norse)";
+            TMP_MaterialManager.CopyMaterialPresetProperties(source, material);
+            material.name = source.name + " (" + replacement.name + ")";
             material.hideFlags = HideFlags.HideAndDontSave;
             cache[source] = material;
             return material;
         }
 
-        private static void CopyAtlasProperty(Material source, Material destination, string property)
-        {
-            if (source.HasProperty(property) && destination.HasProperty(property))
-            {
-                destination.SetTexture(property, source.GetTexture(property));
-            }
-        }
-
-        private static void CopyFloatProperty(Material source, Material destination, string property)
-        {
-            if (source.HasProperty(property) && destination.HasProperty(property))
-            {
-                destination.SetFloat(property, source.GetFloat(property));
-            }
-        }
-
         private static bool AddAssetFallback(TMP_FontAsset asset, TMP_FontAsset fallback)
         {
+            if (asset == null || fallback == null)
+            {
+                return false;
+            }
+            if (asset.fallbackFontAssetTable == null)
+            {
+                asset.fallbackFontAssetTable = new List<TMP_FontAsset>();
+            }
             if (asset.fallbackFontAssetTable.Contains(fallback))
             {
                 return false;

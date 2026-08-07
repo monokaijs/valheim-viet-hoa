@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.2.7
+
+- Copy Valheim's complete TextMeshPro material preset onto replacement fonts.
+- Preserve the original shader and black outline while retaining each replacement font's atlas metrics.
+
+## 0.2.6
+
+- Replace Valheim's Averia Sans text as a whole font with the narrower Patrick Hand.
+- Replace Averia Serif with Vietnamese-complete Bitter Regular/Bold.
+- Bundle Patrick Hand with complete Vietnamese coverage under the SIL Open Font License.
+- Preserve Valheim's existing outline, shadow, color, and bold material settings.
+
+## 0.2.5
+
+- Make Noto fallback glyphs inherit the primary TextMeshPro material preset.
+- Preserve Valheim's outline and underlay/shadow consistently across Vietnamese text.
+
+## 0.2.4
+
+- Initialize new SVN-Norse fallback tables before adding Noto, preventing startup from aborting.
+- Ensure the whole-font Valheim-Norse replacement actually runs.
+
 ## 0.2.3
 
 - Replace Valheim-Norse/Valheim-Norsebold as whole fonts with SVN-Norse Regular/Bold.

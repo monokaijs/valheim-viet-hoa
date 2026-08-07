@@ -27,5 +27,7 @@ The GitHub release workflow also creates a release ZIP when a `v*` tag is pushed
 
 ## Fonts
 
-The public archive includes `SVN-Norse Regular.otf` and `SVN-Norse Bold.otf` beside the plugin DLL.
+The public archive includes `SVN-Norse Regular.otf`, `SVN-Norse Bold.otf`,
+`PatrickHand-Regular.ttf`, `Bitter-Regular.ttf`, and `Bitter-Bold.ttf` beside the plugin DLL. The
+Patrick Hand and Bitter SIL Open Font License texts must remain in the archive.
 The packaging command fails if either required font file is missing.

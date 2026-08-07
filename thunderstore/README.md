@@ -10,6 +10,8 @@ Viking ở hội thoại, bia đá, giấc mơ và truyền thuyết.
 - Ghi nhớ ngữ cảnh theo nhóm vật phẩm, nhân vật và chủ đề để dùng thuật ngữ nhất quán.
 - Thay trọn bộ Valheim-Norse/Valheim-Norsebold bằng SVN-Norse Regular/Bold, không trộn riêng ký tự
   có dấu vào font thường.
+- Thay toàn bộ Averia Sans bằng Patrick Hand gọn chiều ngang và đầy đủ tiếng Việt.
+- Thay toàn bộ Averia Serif bằng Bitter Regular/Bold đầy đủ tiếng Việt.
 - Dùng Noto Sans/Serif có sẵn trong Valheim làm lớp dự phòng cho các font giao diện khác.
 - Không chỉnh sửa `resources.assets`; có thể gỡ sạch bằng mod manager.
 

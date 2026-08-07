@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.4.0"]
+dev = ["fonttools>=4.63.0", "pytest>=8.4.0"]
 
 [project.scripts]
 valheim-vn = "valheim_vn.cli:main"

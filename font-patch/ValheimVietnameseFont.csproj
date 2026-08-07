@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>ValheimVietnameseFont</AssemblyName>
+    <RootNamespace>ValheimVietnameseFont</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <IncludeSVNNorse Condition="'$(IncludeSVNNorse)' == ''">false</IncludeSVNNorse>
+    <ValheimDir Condition="'$(ValheimDir)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Valheim</ValheimDir>
+    <ManagedDir>$(ValheimDir)/valheim.app/Contents/Resources/Data/Managed</ManagedDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="BepInEx">
+      <HintPath>$(ValheimDir)/BepInEx/core/BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(ManagedDir)/Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ManagedDir)/UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <None Include="../SVN-Norse Regular.otf" Link="SVN-Norse Regular.otf"
+          Condition="'$(IncludeSVNNorse)' == 'true' and Exists('../SVN-Norse Regular.otf')"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../SVN-Norse Bold.otf" Link="SVN-Norse Bold.otf"
+          Condition="'$(IncludeSVNNorse)' == 'true' and Exists('../SVN-Norse Bold.otf')"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

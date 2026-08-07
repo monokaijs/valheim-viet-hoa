@@ -1,0 +1,10 @@
+{
+  "name": "Valheim_Viet_Hoa",
+  "version_number": "0.2.0",
+  "website_url": "https://github.com/monokaijs/valheim-viet-hoa",
+  "description": "Bản Việt hóa Valheim đầy đủ, giàu ngữ cảnh và có font fallback cho mọi dấu tiếng Việt.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2333",
+    "ValheimModding-Jotunn-2.29.2"
+  ]
+}

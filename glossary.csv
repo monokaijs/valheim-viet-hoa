@@ -1,0 +1,9 @@
+source,target,notes,locked
+Valheim,Valheim,World name; never translate,true
+Odin,Odin,Norse god; keep canonical spelling,true
+Hugin,Hugin,Odin's raven and recurring speaker,true
+Munin,Munin,Odin's raven; keep canonical spelling,true
+Midgard,Midgard,Realm name; keep canonical spelling,true
+Yggdrasil,Yggdrasil,World tree; keep canonical spelling,true
+Eikthyr,Eikthyr,Forsaken boss proper name,true
+
